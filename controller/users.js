@@ -10,7 +10,7 @@ exports.register = async (req, res) => {
   // console.log(req.body);
   try {
     // const users = Users.findOne({ username: req.body.username });
-    // if (users === { username: req.body.username }) {
+    // if (users ===  req.body.username ) {
     //   return res.json("user alerdy exsist");
     // }
     const errors = validationResult(req);
