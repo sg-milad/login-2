@@ -1,4 +1,10 @@
 const mongoose = require("mongoose");
+var dateObj = new Date();
+var month = dateObj.getUTCMonth() + 1;
+var day = dateObj.getUTCDate();
+var year = dateObj.getUTCFullYear();
+
+const newdate = year + "/" + month + "/" + day;
 const userschema = new mongoose.Schema({
   username: {
     type: String,
@@ -9,6 +15,6 @@ const userschema = new mongoose.Schema({
   },
   email: { type: String, required: true },
   password: { type: String, required: true },
-  creatAT: { type: String, default: new Date().getDate() },
+  createdAT: { type: String, default: newdate },
 });
 module.exports = mongoose.model("users", userschema);

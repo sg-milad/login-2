@@ -1,25 +1,22 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const Users = require("../model/userschema");
-const { body, validationResult } = require("express-validator");
+const { validationResult } = require("express-validator");
 exports.home = (req, res) => {
   res.send("home");
-  //   res.redirect("/register");
 };
 exports.register = async (req, res) => {
-  // console.log(req.body);
   try {
-    // const users = Users.findOne({ username: req.body.username });
-    // if (users === { username: req.body.username }) {
-    //   return res.json("user alerdy exsist");
-    // }
+    const users = await Users.findOne({ username: req.body.username });
+    if (users) {
+      return res.json("user ex");
+    }
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(req.body.password, salt);
-    // console.log(hash);
     const user = await Users.create({
       username: req.body.username,
       email: req.body.email,
@@ -28,7 +25,6 @@ exports.register = async (req, res) => {
     console.log(user);
   } catch (e) {
     console.log(e);
-    // res.json({ errors: errors.array() });
   }
 };
 exports.login = async (req, res) => {
@@ -39,7 +35,6 @@ exports.login = async (req, res) => {
   console.log(ismatch);
 
   if (ismatch && username == user.username) {
-    // res.json("welcom");
     res.redirect("/");
   }
   if (username !== user.username || !ismatch) {
